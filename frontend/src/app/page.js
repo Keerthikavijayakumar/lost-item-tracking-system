@@ -11,35 +11,14 @@ export default function HomePage() {
 
       <main>
         {/* Hero Section - Asymmetric Grid Layout */}
-        <section className="container" style={{
-          padding: 'var(--space-16) var(--space-4)',
-          display: 'grid',
-          gridTemplateColumns: '2.5fr 1fr',
-          gap: '60px',
-          alignItems: 'center',
-          marginBottom: 'var(--space-8)'
-        }}>
-
+        <section className="container hero-section stack-mobile">
           {/* Left Content: Text */}
           <div className="hero-text-content">
-            <h1 style={{
-              fontSize: '3.5rem',
-              color: 'var(--kec-blue)',
-              marginBottom: 'var(--space-6)',
-              lineHeight: '1.1',
-              fontWeight: '800',
-              letterSpacing: '-1px'
-            }}>
+            <h1>
               KEC Lost & Found <br />
               <span style={{ color: 'var(--kec-orange)' }}>Recovery Portal</span>
             </h1>
-            <p style={{
-              color: 'var(--text-secondary)',
-              marginBottom: 'var(--space-8)',
-              lineHeight: '1.6',
-              fontSize: '1.2rem',
-              maxWidth: '90%'
-            }}>
+            <p>
               Welcome to the official lost and found recovery system for Kongu Engineering College.
               This platform empowers students and staff to easily report lost items and browse found belongings,
               creating a connected and supportive campus community.
@@ -47,12 +26,7 @@ export default function HomePage() {
           </div>
 
           {/* Right Content: Campus Image */}
-          <div className="hero-image" style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'relative'
-          }}>
+          <div className="hero-image">
             <div style={{
               position: 'relative',
               borderRadius: '16px',
@@ -69,17 +43,7 @@ export default function HomePage() {
             </div>
 
             {/* Floating Badge */}
-            <div style={{
-              position: 'absolute',
-              bottom: '-30px',
-              right: '-10px',
-              background: 'white',
-              padding: '12px 20px',
-              borderRadius: '12px',
-              boxShadow: 'var(--shadow-lg)',
-              borderLeft: '4px solid var(--kec-green)',
-              transform: 'rotate(-2deg)'
-            }}>
+            <div className="hero-badge">
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <div style={{ background: 'var(--kec-green)', padding: '8px', borderRadius: '50%', color: 'white' }}>
                   <Trophy size={20} />
@@ -103,7 +67,7 @@ export default function HomePage() {
                 <Search size={32} />
               </div>
               <h3 style={{ marginBottom: '10px', color: 'var(--kec-blue)' }}>1. Browse Items</h3>
-              <p style={{ color: 'var(--text-secondary)' }}>Check our extensive database of found items. Filter by category, date,/location to find your missing belonging quickly.</p>
+              <p>Check our extensive database of found items. Filter by category, date,/location to find your missing belonging quickly.</p>
             </div>
 
             {/* Step 2 */}
@@ -112,7 +76,7 @@ export default function HomePage() {
                 <FilePlus size={32} />
               </div>
               <h3 style={{ marginBottom: '10px', color: 'var(--kec-blue)' }}>2. Report Lost Item</h3>
-              <p style={{ color: 'var(--text-secondary)' }}>Can't find what you're looking for? Submit a detailed report so others can help you recover it if found.</p>
+              <p>Can&apos;t find what you&apos;re looking for? Submit a detailed report so others can help you recover it if found.</p>
             </div>
 
             {/* Step 3 */}
@@ -121,29 +85,17 @@ export default function HomePage() {
                 <CheckCircle size={32} />
               </div>
               <h3 style={{ marginBottom: '10px', color: 'var(--kec-blue)' }}>3. Recover</h3>
-              <p style={{ color: 'var(--text-secondary)' }}>Connect with the finder securely through our platform and arrange a safe pickup on campus.</p>
+              <p>Connect with the finder securely through our platform and arrange a safe pickup on campus.</p>
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
-            <Link href="/LostItems" className="btn" style={{
-              background: 'var(--kec-blue)',
-              color: 'white',
-              fontWeight: 'bold',
-              padding: '16px 40px',
-              fontSize: '1.1rem',
-              borderRadius: '8px',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '10px',
-              boxShadow: 'var(--shadow-lg)',
-              transition: 'transform 0.2s'
-            }}>
+          <div className="stack-mobile" style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+            <Link href="/lost-items" className="btn btn-primary btn-lg">
               <Search size={20} /> BROWSE ITEMS
             </Link>
 
-            <Link href="/LostItems/New" className="btn" style={{
+            <Link href="/lost-items/new" className="btn" style={{
               background: 'white',
               color: 'var(--kec-green)',
               border: '2px solid var(--kec-green)',
@@ -153,6 +105,7 @@ export default function HomePage() {
               borderRadius: '8px',
               display: 'inline-flex',
               alignItems: 'center',
+              justifyContent: 'center',
               gap: '10px',
               boxShadow: 'var(--shadow-sm)',
               transition: 'transform 0.2s'

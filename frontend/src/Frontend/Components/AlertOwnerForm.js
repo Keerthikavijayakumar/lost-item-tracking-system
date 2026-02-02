@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { X, MapPin, Calendar, FileText, Send, AlertCircle, Smartphone, Building2, Camera, ShieldCheck } from 'lucide-react';
 import ImageUpload from './ImageUpload';
+import { API_ROUTES } from '@/Frontend/Lib/api';
 export default function AlertOwnerForm({ item, onClose, onSuccess }) {
     const { user: currentUser } = useUser();
     const isOwner = currentUser?.id === item.ownerUserId;
@@ -26,13 +27,16 @@ export default function AlertOwnerForm({ item, onClose, onSuccess }) {
         setError('');
 
         try {
-            const response = await fetch('/Api/AlertOwner', {
+            const response = await fetch(API_ROUTES.ALERT_OWNER, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     lostItemId: item._id,
+                    userId: currentUser?.id,
+                    finderName: `${currentUser?.firstName || ''} ${currentUser?.lastName || ''}`.trim(),
+                    finderEmail: currentUser?.emailAddresses[0]?.emailAddress,
                     ...formData,
                 }),
             });
@@ -125,18 +129,7 @@ export default function AlertOwnerForm({ item, onClose, onSuccess }) {
                     ) : (
                         <form onSubmit={handleSubmit} id="alert-form">
                             {error && (
-                                <div style={{
-                                    background: '#fee2e2',
-                                    border: '1px solid #fecaca',
-                                    padding: '12px',
-                                    borderRadius: '8px',
-                                    marginBottom: '20px',
-                                    color: '#ef4444',
-                                    fontSize: '0.9rem',
-                                    display: 'flex',
-                                    gap: '8px',
-                                    alignItems: 'center'
-                                }}>
+                                <div className="error-message" style={{ fontSize: '0.9rem', padding: '12px', marginBottom: '20px' }}>
                                     <AlertCircle size={18} /> {error}
                                 </div>
                             )}
@@ -166,14 +159,6 @@ export default function AlertOwnerForm({ item, onClose, onSuccess }) {
                                     value={formData.foundLocation}
                                     onChange={(e) => setFormData({ ...formData, foundLocation: e.target.value })}
                                     required
-                                    style={{
-                                        width: '100%',
-                                        padding: '12px',
-                                        borderRadius: '8px',
-                                        border: '1px solid var(--gray-300)',
-                                        background: 'var(--gray-50)',
-                                        fontSize: '1rem'
-                                    }}
                                 />
                             </div>
 
@@ -189,15 +174,6 @@ export default function AlertOwnerForm({ item, onClose, onSuccess }) {
                                     value={formData.uniqueIdentifierDescription}
                                     onChange={(e) => setFormData({ ...formData, uniqueIdentifierDescription: e.target.value })}
                                     required
-                                    style={{
-                                        width: '100%',
-                                        padding: '12px',
-                                        borderRadius: '8px',
-                                        border: '1px solid var(--gray-300)',
-                                        background: 'var(--gray-50)',
-                                        fontSize: '1rem',
-                                        fontFamily: 'inherit'
-                                    }}
                                 />
                             </div>
 
@@ -212,7 +188,6 @@ export default function AlertOwnerForm({ item, onClose, onSuccess }) {
                                         value={formData.dateFound}
                                         onChange={(e) => setFormData({ ...formData, dateFound: e.target.value })}
                                         required
-                                        style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--gray-300)', background: 'var(--gray-50)', fontSize: '1rem' }}
                                     />
                                 </div>
                                 <div className="input-group">
@@ -227,7 +202,6 @@ export default function AlertOwnerForm({ item, onClose, onSuccess }) {
                                         value={formData.finderPhoneNumber}
                                         onChange={(e) => setFormData({ ...formData, finderPhoneNumber: e.target.value })}
                                         required
-                                        style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--gray-300)', background: 'var(--gray-50)', fontSize: '1rem' }}
                                     />
                                 </div>
                             </div>
@@ -244,7 +218,6 @@ export default function AlertOwnerForm({ item, onClose, onSuccess }) {
                                     value={formData.finderDepartment}
                                     onChange={(e) => setFormData({ ...formData, finderDepartment: e.target.value })}
                                     required
-                                    style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--gray-300)', background: 'var(--gray-50)', fontSize: '1rem' }}
                                 />
                             </div>
 
@@ -258,7 +231,6 @@ export default function AlertOwnerForm({ item, onClose, onSuccess }) {
                                     rows={2}
                                     value={formData.additionalNotes}
                                     onChange={(e) => setFormData({ ...formData, additionalNotes: e.target.value })}
-                                    style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--gray-300)', background: 'var(--gray-50)', fontSize: '1rem', fontFamily: 'inherit' }}
                                 />
                             </div>
                         </form>
@@ -277,26 +249,11 @@ export default function AlertOwnerForm({ item, onClose, onSuccess }) {
                         <button type="button" className="btn" onClick={onClose} style={{
                             background: 'white',
                             border: '1px solid var(--gray-300)',
-                            color: 'var(--text-primary)',
-                            padding: '10px 24px',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontWeight: '600'
+                            color: 'var(--text-primary)'
                         }}>
                             Cancel
                         </button>
-                        <button type="submit" form="alert-form" className="btn" disabled={loading} style={{
-                            background: 'var(--kec-blue)',
-                            color: 'white',
-                            border: 'none',
-                            padding: '10px 32px',
-                            borderRadius: '8px',
-                            cursor: 'pointer',
-                            fontWeight: '700',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px'
-                        }}>
+                        <button type="submit" form="alert-form" className="btn btn-primary" disabled={loading}>
                             {loading ? 'Sending...' : (
                                 <>
                                     <Send size={18} /> Notify Owner

@@ -190,7 +190,7 @@ export default function LostItemCard({ item, onAlertClick }) {
                             e.target.style.borderColor = 'var(--gray-300)';
                         }}
                     >
-                        View Details
+                        Notify Owner
                     </button>
 
                     {/* Location Tag */}

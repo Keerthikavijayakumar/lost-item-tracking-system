@@ -1,7 +1,5 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function sendFoundItemEmail({
   ownerEmail,
   itemName,
@@ -14,6 +12,7 @@ export async function sendFoundItemEmail({
   finderName,
   finderDepartment
 }) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
   const htmlContent = `
     <!DOCTYPE html>
     <html>
@@ -79,7 +78,7 @@ export async function sendFoundItemEmail({
               <div class="contact-value">${finderEmail}</div>
             </div>
           </div>
-
+ 
           <p style="margin-top: 24px; font-size: 13px; color: #64748b;">
             Please contact the finder directly to arrange pickup.
           </p>
@@ -95,22 +94,28 @@ export async function sendFoundItemEmail({
   `;
 
   try {
-    const { data, error } = await resend.emails.send({
+    console.log('Using Resend API Key:', process.env.RESEND_API_KEY ? 'Present (length: ' + process.env.RESEND_API_KEY.length + ')' : 'Missing');
+
+    const emailData = {
       from: 'Campus Lost & Found <onboarding@resend.dev>',
       to: ownerEmail,
       subject: `Good News: Your lost ${itemName} has been found!`,
       html: htmlContent,
-    });
+    };
+
+    console.log('Sending email with data:', JSON.stringify({ ...emailData, html: '[HTML CONTENT]' }));
+
+    const { data, error } = await resend.emails.send(emailData);
 
     if (error) {
-      console.error('Email send error:', error);
+      console.error('Resend API Error:', error);
       throw error;
     }
 
+    console.log('Resend Response Data:', data);
     return data;
   } catch (error) {
-    console.error('Failed to send email:', error);
+    console.error('sendFoundItemEmail function error:', error);
     throw error;
   }
 }
-

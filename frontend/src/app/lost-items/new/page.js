@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
 import Navbar from '@/Frontend/Components/Navbar';
 import ImageUpload from '@/Frontend/Components/ImageUpload';
 import BackButton from '@/Frontend/Components/BackButton';
+import { API_ROUTES } from '@/Frontend/Lib/api';
 import {
     Type,
     Tag,
@@ -30,6 +32,7 @@ const CATEGORIES = [
 
 export default function NewLostItemPage() {
     const router = useRouter();
+    const { user } = useUser();
     const [formData, setFormData] = useState({
         itemName: '',
         category: '',
@@ -57,12 +60,16 @@ export default function NewLostItemPage() {
         setError('');
 
         try {
-            const response = await fetch('/Api/LostItems', {
+            const response = await fetch(API_ROUTES.LOST_ITEMS, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    ...formData,
+                    userId: user?.id,
+                    userEmail: user?.emailAddresses[0]?.emailAddress
+                }),
             });
 
             const data = await response.json();
@@ -83,7 +90,7 @@ export default function NewLostItemPage() {
         <>
             <Navbar />
 
-            <main className="container" style={{ padding: 'var(--space-8) var(--space-4)', maxWidth: '1000px' }}>
+            <main className="container" style={{ padding: 'var(--space-8) 0' }}>
                 <BackButton variant="minimal" style={{ marginBottom: '16px' }} />
                 <div style={{ marginBottom: 'var(--space-8)', textAlign: 'center' }}>
                     <h1 style={{ color: 'var(--kec-blue)', fontSize: '2rem', marginBottom: '8px' }}>Report a Lost Item</h1>
@@ -92,17 +99,7 @@ export default function NewLostItemPage() {
 
                 <form onSubmit={handleSubmit}>
                     {error && (
-                        <div style={{
-                            background: '#fee2e2',
-                            border: '1px solid #fecaca',
-                            padding: '16px',
-                            borderRadius: '8px',
-                            marginBottom: '24px',
-                            color: '#ef4444',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '12px'
-                        }}>
+                        <div className="error-message">
                             <AlertCircle size={20} />
                             {error}
                         </div>
@@ -116,7 +113,7 @@ export default function NewLostItemPage() {
                                 Item Details
                             </h3>
 
-                            <div className="form-group" style={{ marginBottom: '20px' }}>
+                            <div className="form-group input-group" style={{ marginBottom: '20px' }}>
                                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', fontWeight: '500' }}>
                                     <Type size={16} color="var(--kec-blue)" /> Item Name
                                 </label>
@@ -127,11 +124,10 @@ export default function NewLostItemPage() {
                                     value={formData.itemName}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--gray-300)', background: 'var(--gray-50)' }}
                                 />
                             </div>
 
-                            <div className="form-group" style={{ marginBottom: '20px' }}>
+                            <div className="form-group input-group" style={{ marginBottom: '20px' }}>
                                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', fontWeight: '500' }}>
                                     <Tag size={16} color="var(--kec-blue)" /> Category
                                 </label>
@@ -140,7 +136,6 @@ export default function NewLostItemPage() {
                                     value={formData.category}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--gray-300)', background: 'white' }}
                                 >
                                     {CATEGORIES.map((cat) => (
                                         <option key={cat.value} value={cat.value}>{cat.label}</option>
@@ -148,7 +143,7 @@ export default function NewLostItemPage() {
                                 </select>
                             </div>
 
-                            <div className="form-group" style={{ marginBottom: '20px' }}>
+                            <div className="form-group input-group" style={{ marginBottom: '20px' }}>
                                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', fontWeight: '500' }}>
                                     <Calendar size={16} color="var(--kec-blue)" /> Date Lost
                                 </label>
@@ -159,11 +154,10 @@ export default function NewLostItemPage() {
                                     onChange={handleChange}
                                     max={new Date().toISOString().split('T')[0]}
                                     required
-                                    style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--gray-300)' }}
                                 />
                             </div>
 
-                            <div className="form-group">
+                            <div className="form-group input-group">
                                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', fontWeight: '500' }}>
                                     <MapPin size={16} color="var(--kec-blue)" /> Last Seen Location
                                 </label>
@@ -174,7 +168,6 @@ export default function NewLostItemPage() {
                                     value={formData.lastSeenLocation}
                                     onChange={handleChange}
                                     required
-                                    style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--gray-300)' }}
                                 />
                             </div>
                         </div>
@@ -185,7 +178,7 @@ export default function NewLostItemPage() {
                                 Visuals & Description
                             </h3>
 
-                            <div className="form-group" style={{ marginBottom: '20px' }}>
+                            <div className="form-group input-group" style={{ marginBottom: '20px' }}>
                                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', fontWeight: '500' }}>
                                     <FileText size={16} color="var(--kec-orange)" /> Description
                                 </label>
@@ -196,7 +189,6 @@ export default function NewLostItemPage() {
                                     onChange={handleChange}
                                     rows={5}
                                     required
-                                    style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--gray-300)', resize: 'vertical' }}
                                 />
                             </div>
 
@@ -214,7 +206,7 @@ export default function NewLostItemPage() {
                         </div>
                     </div>
 
-                    <div style={{ marginTop: '32px', display: 'flex', justifyContent: 'flex-end', gap: '16px' }}>
+                    <div className="form-actions">
                         <button
                             type="button"
                             onClick={() => router.back()}
@@ -222,13 +214,7 @@ export default function NewLostItemPage() {
                             style={{
                                 background: 'white',
                                 border: '1px solid var(--gray-300)',
-                                color: 'var(--text-secondary)',
-                                padding: '12px 24px',
-                                borderRadius: '8px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '8px',
-                                fontWeight: '600'
+                                color: 'var(--text-secondary)'
                             }}
                         >
                             <X size={18} /> Cancel
@@ -236,17 +222,8 @@ export default function NewLostItemPage() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="btn"
+                            className="btn btn-primary"
                             style={{
-                                background: 'var(--kec-blue)',
-                                color: 'white',
-                                padding: '12px 32px',
-                                borderRadius: '8px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '8px',
-                                fontWeight: '600',
-                                boxShadow: 'var(--shadow-md)',
                                 opacity: loading ? 0.8 : 1
                             }}
                         >

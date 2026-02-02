@@ -5,6 +5,7 @@ import Navbar from '@/Frontend/Components/Navbar';
 import LostItemCard from '@/Frontend/Components/LostItemCard';
 import AlertOwnerForm from '@/Frontend/Components/AlertOwnerForm';
 import BackButton from '@/Frontend/Components/BackButton';
+import { API_ROUTES } from '@/Frontend/Lib/api';
 import { Search, Tablet, Smartphone, Book, Shirt, Briefcase, FileText, Key, Package, Inbox, CheckCircle } from 'lucide-react';
 
 const CATEGORIES = [
@@ -41,7 +42,7 @@ export default function LostItemsFeedPage() {
             if (dateFilter) params.append('date', dateFilter);
             params.append('sort', sort);
 
-            const response = await fetch(`/Api/LostItems?${params.toString()}`);
+            const response = await fetch(`${API_ROUTES.LOST_ITEMS}?${params.toString()}`);
             const data = await response.json();
 
             if (response.ok) {
@@ -73,7 +74,7 @@ export default function LostItemsFeedPage() {
 
             <main className="container" style={{ padding: 'var(--space-8) var(--space-4)' }}>
                 {/* Header Section */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px', gap: '20px', borderBottom: '2px solid var(--gray-100)', paddingBottom: '24px' }}>
+                <div className="stack-mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px', gap: '20px', borderBottom: '2px solid var(--gray-100)', paddingBottom: '24px' }}>
                     <div style={{ textAlign: 'left' }}>
                         <BackButton variant="minimal" style={{ marginBottom: '12px' }} />
                         <h1 style={{ color: 'var(--kec-blue)', fontSize: '2rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '12px', margin: 0, letterSpacing: '-0.5px' }}>
@@ -82,7 +83,7 @@ export default function LostItemsFeedPage() {
                         <p style={{ color: 'var(--text-secondary)', marginTop: '6px', fontSize: '1rem', fontWeight: '500' }}>Browse items reported as lost on campus</p>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '20px', padding: '12px 24px', background: 'var(--gray-50)', borderRadius: '12px', border: '1px solid var(--gray-200)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '20px', padding: '12px 24px', background: 'var(--gray-50)', borderRadius: '12px', border: '1px solid var(--gray-200)', width: 'fit-content' }}>
                         <div style={{ textAlign: 'right' }}>
                             <div style={{ fontSize: '1.5rem', fontWeight: '800', color: 'var(--kec-blue)', lineHeight: '1' }}>{items.length}</div>
                             <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: '700', marginTop: '4px', letterSpacing: '0.5px' }}>TOTAL LISTED</div>
@@ -97,27 +98,26 @@ export default function LostItemsFeedPage() {
                     <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '4px', background: 'linear-gradient(90deg, var(--kec-blue), var(--kec-orange))' }}></div>
 
                     <form onSubmit={handleSearch} style={{ display: 'grid', gap: '24px' }}>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr 1fr', gap: '20px', alignItems: 'end' }}>
-                            <div className="form-group">
+                        <div className="filter-grid">
+                            <div className="input-group form-group">
                                 <label style={{ display: 'block', marginBottom: '10px', fontSize: '0.8rem', fontWeight: '700', color: 'var(--kec-blue)', letterSpacing: '0.5px' }}>SEARCH KEYWORD</label>
-                                <div style={{ position: 'relative' }}>
-                                    <Search size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                                <div className="search-input-wrapper">
+                                    <Search size={18} className="search-icon" />
                                     <input
                                         type="text"
                                         placeholder="Bag, bottle, wallet..."
                                         value={search}
                                         onChange={(e) => setSearch(e.target.value)}
-                                        style={{ width: '100%', padding: '12px 12px 12px 42px', borderRadius: '8px', border: '1.5px solid var(--gray-200)', fontSize: '0.95rem', background: 'var(--gray-50)' }}
+                                        className="form-input"
                                     />
                                 </div>
                             </div>
 
-                            <div className="form-group">
+                            <div className="input-group form-group">
                                 <label style={{ display: 'block', marginBottom: '10px', fontSize: '0.8rem', fontWeight: '700', color: 'var(--kec-blue)', letterSpacing: '0.5px' }}>CATEGORY</label>
                                 <select
                                     value={category}
                                     onChange={(e) => setCategory(e.target.value)}
-                                    style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1.5px solid var(--gray-200)', fontSize: '0.95rem', background: 'var(--gray-50)', cursor: 'pointer' }}
                                 >
                                     {CATEGORIES.map((cat) => (
                                         <option key={cat.value} value={cat.value}>{cat.label}</option>
@@ -125,24 +125,20 @@ export default function LostItemsFeedPage() {
                                 </select>
                             </div>
 
-                            <div className="form-group">
+                            <div className="input-group form-group">
                                 <label style={{ display: 'block', marginBottom: '10px', fontSize: '0.8rem', fontWeight: '700', color: 'var(--kec-blue)', letterSpacing: '0.5px' }}>DATE LOST</label>
-                                <div style={{ position: 'relative' }}>
-                                    <input
-                                        type="date"
-                                        value={dateFilter}
-                                        onChange={(e) => setDateFilter(e.target.value)}
-                                        style={{ width: '100%', padding: '11px', borderRadius: '8px', border: '1.5px solid var(--gray-200)', fontSize: '0.95rem', background: 'var(--gray-50)', cursor: 'pointer' }}
-                                    />
-                                </div>
+                                <input
+                                    type="date"
+                                    value={dateFilter}
+                                    onChange={(e) => setDateFilter(e.target.value)}
+                                />
                             </div>
 
-                            <div className="form-group">
+                            <div className="input-group form-group">
                                 <label style={{ display: 'block', marginBottom: '10px', fontSize: '0.8rem', fontWeight: '700', color: 'var(--kec-blue)', letterSpacing: '0.5px' }}>SORT ORDER</label>
                                 <select
                                     value={sort}
                                     onChange={(e) => setSort(e.target.value)}
-                                    style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1.5px solid var(--gray-200)', fontSize: '0.95rem', background: 'var(--gray-50)', cursor: 'pointer' }}
                                 >
                                     <option value="newest">Newest First</option>
                                     <option value="oldest">Oldest First</option>
@@ -151,7 +147,7 @@ export default function LostItemsFeedPage() {
                             </div>
                         </div>
 
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--gray-100)', paddingTop: '20px' }}>
+                        <div className="filter-actions">
                             <div style={{ display: 'flex', gap: '12px' }}>
                                 {(search || category !== 'all' || dateFilter) && (
                                     <button
@@ -163,20 +159,7 @@ export default function LostItemsFeedPage() {
                                     </button>
                                 )}
                             </div>
-                            <button type="submit" className="btn" style={{
-                                background: 'var(--kec-blue)',
-                                color: 'white',
-                                padding: '12px 36px',
-                                borderRadius: '8px',
-                                fontWeight: '700',
-                                fontSize: '1rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '10px',
-                                transition: 'all 0.2s',
-                                border: 'none',
-                                cursor: 'pointer'
-                            }}>
+                            <button type="submit" className="btn btn-primary">
                                 <Search size={20} /> Search Items
                             </button>
                         </div>
@@ -193,9 +176,9 @@ export default function LostItemsFeedPage() {
                         <Inbox size={80} color="var(--gray-300)" style={{ margin: '0 auto 24px' }} />
                         <h3 style={{ fontSize: '1.75rem', color: 'var(--kec-blue)', marginBottom: '12px' }}>No matches found</h3>
                         <p style={{ color: 'var(--text-secondary)', maxWidth: '500px', margin: '0 auto', fontSize: '1.1rem', lineHeight: '1.6' }}>
-                            We couldn't find any lost items matching your current filters. Try searching for something else or clearing your filters.
+                            We couldn&apos;t find any lost items matching your current filters. Try searching for something else or clearing your filters.
                         </p>
-                        <button onClick={() => { setSearch(''); setCategory('all'); setDateFilter(''); }} style={{ marginTop: '24px', background: 'var(--kec-blue)', color: 'white', border: 'none', padding: '12px 24px', borderRadius: '8px', fontWeight: '600', cursor: 'pointer' }}>
+                        <button onClick={() => { setSearch(''); setCategory('all'); setDateFilter(''); }} className="btn btn-primary" style={{ marginTop: '24px' }}>
                             Reset All Filters
                         </button>
                     </div>

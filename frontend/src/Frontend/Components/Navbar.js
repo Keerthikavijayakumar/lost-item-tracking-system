@@ -7,7 +7,7 @@ import { Package, Search, Plus } from 'lucide-react';
 
 export default function Navbar() {
     const pathname = usePathname();
-    const isDashboard = pathname === '/Dashboard';
+    const isDashboard = pathname === '/dashboard';
 
     return (
         <header style={{ position: 'sticky', top: 0, zIndex: 100 }}>
@@ -26,7 +26,7 @@ export default function Navbar() {
                                 <Package size={32} color="var(--kec-blue)" strokeWidth={2.5} />
                                 <span style={{ fontSize: '1.5rem', fontWeight: '800', letterSpacing: '-0.5px' }}>KEC CAMPUS</span>
                             </div>
-                            <span style={{ fontSize: '0.75rem', fontWeight: '600', color: 'var(--kec-orange)', letterSpacing: '1px', marginLeft: '40px' }}>LOST & FOUND</span>
+                            <span className="hide-mobile" style={{ fontSize: '0.75rem', fontWeight: '600', color: 'var(--kec-orange)', letterSpacing: '1px', marginLeft: '40px' }}>LOST & FOUND</span>
                         </div>
                     </Link>
 
@@ -47,7 +47,7 @@ export default function Navbar() {
                                     DASHBOARD
                                 </span>
                             ) : (
-                                <Link href="/Dashboard" style={{
+                                <Link href="/dashboard" style={{
                                     color: 'var(--kec-blue)',
                                     textDecoration: 'none',
                                     fontWeight: '700',
@@ -63,7 +63,7 @@ export default function Navbar() {
                             <UserButton />
                         </SignedIn>
                         <SignedOut>
-                            <Link href="/SignIn" className="btn" style={{
+                            <Link href="/sign-in" className="btn" style={{
                                 background: 'var(--kec-blue)',
                                 color: 'white',
                                 borderRadius: '4px',

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { API_ROUTES } from '@/Frontend/Lib/api';
 
 export default function ImageUpload({ onImageUpload, currentImage }) {
     const [uploading, setUploading] = useState(false);
@@ -36,7 +37,7 @@ export default function ImageUpload({ onImageUpload, currentImage }) {
             const formData = new FormData();
             formData.append('file', file);
 
-            const response = await fetch('/Api/Upload', {
+            const response = await fetch(API_ROUTES.UPLOAD, {
                 method: 'POST',
                 body: formData,
             });
