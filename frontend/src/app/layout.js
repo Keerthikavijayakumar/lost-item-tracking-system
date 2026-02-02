@@ -1,4 +1,5 @@
 import { ClerkProvider } from '@clerk/nextjs';
+import UserSync from '@/Frontend/Components/UserSync';
 import './globals.css';
 
 export const metadata = {
@@ -17,6 +18,7 @@ export default function RootLayout({ children }) {
           <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
         </head>
         <body>
+          <UserSync />
           <div className="main-layout-wrapper">
             <div className="content-flex">
               {children}

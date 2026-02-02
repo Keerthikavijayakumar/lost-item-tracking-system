@@ -5,5 +5,6 @@ export const API_ROUTES = {
     ALERTS: `${API_BASE_URL}/alerts`,
     UPLOAD: `${API_BASE_URL}/upload`,
     USER_DASHBOARD: `${API_BASE_URL}/user/dashboard`,
+    USER: `${API_BASE_URL}/user`,
     ALERT_OWNER: `${API_BASE_URL}/alert-owner`,
 };

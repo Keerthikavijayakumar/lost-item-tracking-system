@@ -1,15 +1,45 @@
 import express from 'express';
 import Alert from '../Models/Alert.js';
 import LostItem from '../Models/LostItem.js';
+import User from '../Models/User.js';
 import connectDB from '../Lib/MongoDB.js';
-import { sendFoundItemEmail } from '../Lib/Email.js';
 
 const router = express.Router();
+
+// Sync user data from Clerk
+router.post('/sync', async (req, res) => {
+    try {
+        const { clerkId, firstName, lastName, email, profileImageUrl } = req.body;
+
+        if (!clerkId || !email) {
+            return res.status(400).json({ error: 'Missing required user data' });
+        }
+
+        await connectDB();
+
+        const user = await User.findOneAndUpdate(
+            { clerkId },
+            {
+                firstName,
+                lastName,
+                email,
+                profileImageUrl,
+                lastLogin: new Date()
+            },
+            { upsert: true, new: true }
+        );
+
+        res.status(200).json({ success: true, user });
+    } catch (error) {
+        console.error('Error syncing user:', error);
+        res.status(500).json({ error: 'Failed to sync user data' });
+    }
+});
 
 // Fetch dashboard data
 router.get('/dashboard', async (req, res) => {
     try {
-        const { userId } = req.query; // In a real app, from auth middleware
+        const { userId } = req.query; // Clerk ID
 
         if (!userId) return res.status(401).json({ error: 'Unauthorized' });
 
