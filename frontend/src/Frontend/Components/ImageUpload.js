@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import { API_ROUTES } from '@/Frontend/Lib/api';
 
-export default function ImageUpload({ onImageUpload, currentImage }) {
+export default function ImageUpload({ onImageUpload, onUploading, currentImage }) {
     const [uploading, setUploading] = useState(false);
     const [preview, setPreview] = useState(currentImage || null);
     const [error, setError] = useState('');
@@ -27,6 +27,7 @@ export default function ImageUpload({ onImageUpload, currentImage }) {
 
         setError('');
         setUploading(true);
+        if (onUploading) onUploading(true);
 
         // Show preview
         const reader = new FileReader();
@@ -54,6 +55,7 @@ export default function ImageUpload({ onImageUpload, currentImage }) {
             setPreview(null);
         } finally {
             setUploading(false);
+            if (onUploading) onUploading(false);
         }
     };
 

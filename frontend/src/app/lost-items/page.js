@@ -75,15 +75,15 @@ export default function LostItemsFeedPage() {
             <main className="container" style={{ padding: 'var(--space-8) var(--space-4)' }}>
                 {/* Header Section */}
                 <div className="stack-mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px', gap: '20px', borderBottom: '2px solid var(--gray-100)', paddingBottom: '24px' }}>
-                    <div style={{ textAlign: 'left' }}>
+                    <div style={{ textAlign: 'left', flex: 1 }}>
                         <BackButton variant="minimal" style={{ marginBottom: '12px' }} />
-                        <h1 style={{ color: 'var(--kec-blue)', fontSize: '2rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '12px', margin: 0, letterSpacing: '-0.5px' }}>
+                        <h1 style={{ color: 'var(--kec-blue)', fontSize: '2rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '12px', margin: 0, letterSpacing: '-0.5px', flexWrap: 'wrap' }}>
                             <Search size={32} /> Lost Items Feed
                         </h1>
                         <p style={{ color: 'var(--text-secondary)', marginTop: '6px', fontSize: '1rem', fontWeight: '500' }}>Browse items reported as lost on campus</p>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '20px', padding: '12px 24px', background: 'var(--gray-50)', borderRadius: '12px', border: '1px solid var(--gray-200)', width: 'fit-content' }}>
+                    <div className="hide-mobile" style={{ display: 'flex', alignItems: 'center', gap: '20px', padding: '12px 24px', background: 'var(--gray-50)', borderRadius: '12px', border: '1px solid var(--gray-200)', width: 'fit-content', flexShrink: 0 }}>
                         <div style={{ textAlign: 'right' }}>
                             <div style={{ fontSize: '1.5rem', fontWeight: '800', color: 'var(--kec-blue)', lineHeight: '1' }}>{items.length}</div>
                             <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: '700', marginTop: '4px', letterSpacing: '0.5px' }}>TOTAL LISTED</div>
@@ -98,7 +98,7 @@ export default function LostItemsFeedPage() {
                     <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '4px', background: 'linear-gradient(90deg, var(--kec-blue), var(--kec-orange))' }}></div>
 
                     <form onSubmit={handleSearch} style={{ display: 'grid', gap: '24px' }}>
-                        <div className="filter-grid">
+                        <div className="filter-grid" style={{ width: '100%' }}>
                             <div className="input-group form-group">
                                 <label style={{ display: 'block', marginBottom: '10px', fontSize: '0.8rem', fontWeight: '700', color: 'var(--kec-blue)', letterSpacing: '0.5px' }}>SEARCH KEYWORD</label>
                                 <div className="search-input-wrapper">

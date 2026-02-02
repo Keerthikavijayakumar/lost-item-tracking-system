@@ -90,8 +90,8 @@ export default function HomePage() {
           </div>
 
           {/* Action Buttons */}
-          <div className="stack-mobile" style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
-            <Link href="/lost-items" className="btn btn-primary btn-lg">
+          <div className="stack-mobile" style={{ display: 'flex', justifyContent: 'center', gap: '20px', width: '100%' }}>
+            <Link href="/lost-items" className="btn btn-primary btn-lg" style={{ width: '100%', maxWidth: '400px' }}>
               <Search size={20} /> BROWSE ITEMS
             </Link>
 
@@ -108,7 +108,9 @@ export default function HomePage() {
               justifyContent: 'center',
               gap: '10px',
               boxShadow: 'var(--shadow-sm)',
-              transition: 'transform 0.2s'
+              transition: 'transform 0.2s',
+              width: '100%',
+              maxWidth: '400px'
             }}>
               <FilePlus size={20} /> REPORT ITEM
             </Link>

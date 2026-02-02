@@ -27,10 +27,6 @@ app.use('/api/upload', uploadRouter);
 app.use('/api/user', userRouter);
 app.use('/api/alert-owner', alertOwnerRouter);
 
-app.get('/', (req, res) => {
-    res.send('Campus Lost & Found API is running...');
-});
-
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

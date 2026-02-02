@@ -20,18 +20,18 @@ export default function Navbar() {
             }}>
                 <div className="container navbar-content" style={{ height: '80px' }}>
                     {/* Logo Section */}
-                    <Link href="/" className="navbar-logo" style={{ color: 'var(--kec-blue)', textDecoration: 'none' }}>
+                    <Link href="/" className="navbar-logo" style={{ color: 'var(--kec-blue)', textDecoration: 'none', flexShrink: 0 }}>
                         <div style={{ display: 'flex', flexDirection: 'column', lineHeight: '1.2' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                <Package size={32} color="var(--kec-blue)" strokeWidth={2.5} />
-                                <span style={{ fontSize: '1.5rem', fontWeight: '800', letterSpacing: '-0.5px' }}>KEC CAMPUS</span>
+                                <Package size={32} color="var(--kec-blue)" strokeWidth={2.5} style={{ flexShrink: 0 }} />
+                                <span style={{ fontSize: '1.5rem', fontWeight: '800', letterSpacing: '-0.5px', whiteSpace: 'nowrap' }}>KEC CAMPUS</span>
                             </div>
                             <span className="hide-mobile" style={{ fontSize: '0.75rem', fontWeight: '600', color: 'var(--kec-orange)', letterSpacing: '1px', marginLeft: '40px' }}>LOST & FOUND</span>
                         </div>
                     </Link>
 
                     {/* Action Buttons */}
-                    <div className="navbar-actions" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    <div className="navbar-actions" style={{ display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }}>
                         <SignedIn>
                             {isDashboard ? (
                                 <span style={{

@@ -177,7 +177,7 @@ export default function LostItemCard({ item, onAlertClick }) {
                             fontSize: '0.9rem',
                             cursor: 'pointer',
                             transition: 'all 0.2s',
-                            width: 'fit-content' // Button style like "Read More"
+                            width: '100%'
                         }}
                         onMouseOver={(e) => {
                             e.target.style.background = 'var(--text-primary)';

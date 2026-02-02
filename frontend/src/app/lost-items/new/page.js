@@ -43,6 +43,7 @@ export default function NewLostItemPage() {
         imagePublicId: null,
     });
     const [loading, setLoading] = useState(false);
+    const [imageUploading, setImageUploading] = useState(false);
     const [error, setError] = useState('');
 
     const handleChange = (e) => {
@@ -78,7 +79,7 @@ export default function NewLostItemPage() {
                 throw new Error(data.error || 'Failed to create item');
             }
 
-            router.push('/LostItems?success=true');
+            router.push('/lost-items?success=true');
         } catch (err) {
             setError(err.message);
         } finally {
@@ -105,10 +106,10 @@ export default function NewLostItemPage() {
                         </div>
                     )}
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px', width: '100%' }}>
 
                         {/* Left Column: Core Details */}
-                        <div className="card" style={{ padding: '32px', borderTop: '4px solid var(--kec-blue)' }}>
+                        <div className="card" style={{ padding: '32px', borderTop: '4px solid var(--kec-blue)', width: '100%' }}>
                             <h3 style={{ marginBottom: '24px', color: 'var(--kec-blue)', fontSize: '1.25rem', borderBottom: '1px solid var(--gray-100)', paddingBottom: '12px' }}>
                                 Item Details
                             </h3>
@@ -173,7 +174,7 @@ export default function NewLostItemPage() {
                         </div>
 
                         {/* Right Column: Description & Image */}
-                        <div className="card" style={{ padding: '32px', borderTop: '4px solid var(--kec-orange)' }}>
+                        <div className="card" style={{ padding: '32px', borderTop: '4px solid var(--kec-orange)', width: '100%' }}>
                             <h3 style={{ marginBottom: '24px', color: 'var(--kec-orange)', fontSize: '1.25rem', borderBottom: '1px solid var(--gray-100)', paddingBottom: '12px' }}>
                                 Visuals & Description
                             </h3>
@@ -199,6 +200,7 @@ export default function NewLostItemPage() {
                                 <div style={{ border: '2px dashed var(--gray-200)', borderRadius: '12px', padding: '16px', background: 'var(--gray-50)' }}>
                                     <ImageUpload
                                         onImageUpload={handleImageUpload}
+                                        onUploading={setImageUploading}
                                         currentImage={formData.imageUrl}
                                     />
                                 </div>
@@ -221,13 +223,13 @@ export default function NewLostItemPage() {
                         </button>
                         <button
                             type="submit"
-                            disabled={loading}
+                            disabled={loading || imageUploading}
                             className="btn btn-primary"
                             style={{
-                                opacity: loading ? 0.8 : 1
+                                opacity: (loading || imageUploading) ? 0.8 : 1
                             }}
                         >
-                            <Save size={18} /> {loading ? 'Posting...' : 'Post Lost Item'}
+                            <Save size={18} /> {loading ? 'Posting...' : imageUploading ? 'Uploading Image...' : 'Post Lost Item'}
                         </button>
                     </div>
                 </form>

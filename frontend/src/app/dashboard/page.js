@@ -12,12 +12,9 @@ import {
     Inbox,
     Trash2,
     CheckCircle,
-    Search,
     MapPin,
     Calendar,
-    MessageSquare,
     Mail,
-    Bell,
     Send
 } from 'lucide-react';
 
@@ -108,13 +105,8 @@ export default function DashboardPage() {
                 </div>
 
                 {/* KPI Stats Row */}
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-                    gap: '24px',
-                    marginBottom: 'var(--space-12)'
-                }}>
-                    <div className="card stats-card" style={{ borderLeft: '4px solid var(--kec-orange)' }}>
+                <div className="dashboard-stats-grid">
+                    <div className="card stats-card stats-card-orange">
                         <div className="stats-card-icon" style={{ color: 'var(--kec-orange)' }}>
                             <Package size={32} />
                         </div>
@@ -124,7 +116,7 @@ export default function DashboardPage() {
                         </div>
                     </div>
 
-                    <div className="card stats-card" style={{ borderLeft: '4px solid var(--kec-green)' }}>
+                    <div className="card stats-card stats-card-green">
                         <div className="stats-card-icon" style={{ background: 'var(--success-50)', color: 'var(--kec-green)' }}>
                             <CheckCircle size={32} />
                         </div>
@@ -134,7 +126,7 @@ export default function DashboardPage() {
                         </div>
                     </div>
 
-                    <div className="card stats-card" style={{ borderLeft: '4px solid var(--kec-blue)' }}>
+                    <div className="card stats-card stats-card-blue">
                         <div className="stats-card-icon" style={{ background: 'var(--info-50)', color: 'var(--kec-blue)' }}>
                             <Send size={32} />
                         </div>
@@ -146,9 +138,7 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Main Content Grid */}
-                <div style={{ display: 'grid', gap: '40px' }}>
-
-                    {/* Section: My Lost Items */}
+                <div className="dashboard-main-grid">
                     <section>
                         <div className="section-header stack-mobile">
                             <h2 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--kec-blue)', fontSize: '1.5rem', margin: 0 }}>
@@ -160,13 +150,13 @@ export default function DashboardPage() {
                         </div>
 
                         {data.myItems.length === 0 ? (
-                            <div className="card empty-state" style={{ padding: '40px', background: 'var(--gray-50)', border: '2px dashed var(--gray-200)' }}>
+                            <div className="empty-state-card">
                                 <Inbox size={48} color="var(--gray-400)" style={{ margin: '0 auto 16px' }} />
                                 <p style={{ marginBottom: '16px' }}>You haven&apos;t reported any lost items yet.</p>
                                 <Link href="/lost-items/new" className="btn btn-primary">Report a Lost Item</Link>
                             </div>
                         ) : (
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
+                            <div className="items-grid">
                                 {data.myItems.map((item) => (
                                     <div key={item._id} className="card" style={{ display: 'flex', flexDirection: 'column', height: '100%', borderTop: '4px solid var(--kec-orange)' }}>
                                         <div style={{ padding: '20px', flex: 1 }}>
@@ -216,13 +206,15 @@ export default function DashboardPage() {
                     </section>
 
                     {/* Section: Found Items & Alerts Sent (Grid 2 cols) */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px', width: '100%' }}>
 
                         {/* Found Items */}
                         <section>
-                            <h2 className="section-header" style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--kec-green)', fontSize: '1.25rem', margin: 0 }}>
-                                <CheckCircle size={20} /> Items That Were Found
-                            </h2>
+                            <div className="section-header">
+                                <h2 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--kec-green)', fontSize: '1.25rem', margin: 0 }}>
+                                    <CheckCircle size={20} /> Items That Were Found
+                                </h2>
+                            </div>
                             {data.foundItems.length === 0 ? (
                                 <div className="card" style={{ padding: '30px', textAlign: 'center', background: 'var(--gray-50)' }}>
                                     <p style={{ color: 'var(--text-muted)' }}>No matches found yet.</p>
@@ -247,9 +239,11 @@ export default function DashboardPage() {
 
                         {/* Alerts Sent */}
                         <section>
-                            <h2 className="section-header" style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--kec-blue)', fontSize: '1.25rem', margin: 0 }}>
-                                <Send size={20} /> Alerts You Sent
-                            </h2>
+                            <div className="section-header">
+                                <h2 style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--kec-blue)', fontSize: '1.25rem', margin: 0 }}>
+                                    <Send size={20} /> Alerts You Sent
+                                </h2>
+                            </div>
                             {data.myAlerts.length === 0 ? (
                                 <div className="card" style={{ padding: '30px', textAlign: 'center', background: 'var(--gray-50)' }}>
                                     <p style={{ color: 'var(--text-muted)' }}>No alerts sent yet.</p>

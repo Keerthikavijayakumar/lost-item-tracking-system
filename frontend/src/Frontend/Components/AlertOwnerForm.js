@@ -78,7 +78,8 @@ export default function AlertOwnerForm({ item, onClose, onSuccess }) {
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
-                animation: 'slideUp 0.3s ease-out'
+                animation: 'slideUp 0.3s ease-out',
+                margin: '20px'
             }}>
                 {/* Header */}
                 <div className="modal-header" style={{
@@ -177,7 +178,7 @@ export default function AlertOwnerForm({ item, onClose, onSuccess }) {
                                 />
                             </div>
 
-                            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '16px', marginBottom: '20px' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '16px', marginBottom: '20px' }} className="stack-mobile">
                                 <div className="input-group">
                                     <label htmlFor="dateFound" style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', fontWeight: '600', color: 'var(--text-primary)' }}>
                                         <Calendar size={18} /> Date Found
