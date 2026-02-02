@@ -206,7 +206,7 @@ export default function DashboardPage() {
                     </section>
 
                     {/* Section: Found Items & Alerts Sent (Grid 2 cols) */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px', width: '100%' }}>
+                    <div className="dashboard-secondary-grid">
 
                         {/* Found Items */}
                         <section>

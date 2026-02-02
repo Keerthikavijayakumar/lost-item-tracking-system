@@ -85,6 +85,9 @@
   --space-10: 40px;
   --space-12: 48px;
   --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
 
   /* Transitions */
   --transition-base: 200ms ease-in-out;
@@ -585,6 +588,8 @@ select:focus,
 @media (max-width: 768px) {
   .container {
     padding: 0 var(--space-4) !important;
+    margin-top: var(--space-6) !important;
+    /* Added space for back buttons/content below navbar */
   }
 
   .hide-mobile {
@@ -600,10 +605,24 @@ select:focus,
   .hero-section {
     padding: var(--space-8) var(--space-4) !important;
     grid-template-columns: 1fr !important;
+    text-align: center !important;
   }
 
   .hero-image {
-    display: none !important;
+    display: flex !important;
+    justify-content: center !important;
+    margin-top: var(--space-10) !important;
+    order: 2 !important;
+    /* Move image to bottom */
+  }
+
+  .hero-text-content {
+    order: 1 !important;
+  }
+
+  .hero-image img {
+    max-width: 90% !important;
+    height: auto !important;
   }
 
   .hero-text-content h1 {
@@ -1636,15 +1655,15 @@ select:focus,
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--space-5);
-  border-bottom: 1px solid var(--gray-200);
-  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-8);
+  border-bottom: 2px solid var(--gray-100);
+  padding-bottom: var(--space-4);
 }
 
 /* Page Header */
 .page-header {
   text-align: center;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-16);
 }
 
 .page-header h1 {
@@ -1666,7 +1685,7 @@ select:focus,
   grid-template-columns: 2.5fr 1fr;
   gap: 60px;
   align-items: center;
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--space-24);
 }
 
 .hero-text-content h1 {
@@ -1718,4 +1737,67 @@ select:focus,
   color: var(--text-secondary);
   font-size: 0.9rem;
   margin-top: 4px;
+}
+
+/* Dashboard & Layout Utilities */
+.main-layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding-bottom: 120px;
+  /* Increased bottom spacing */
+}
+
+.content-flex {
+  flex: 1;
+}
+
+.dashboard-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 32px;
+  margin-bottom: var(--space-20);
+  /* Now 80px */
+  width: 100%;
+}
+
+.dashboard-main-grid {
+  display: grid;
+  gap: var(--space-24);
+  /* Now 96px */
+}
+
+.dashboard-secondary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-20);
+  /* Now 80px */
+  width: 100%;
+}
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 32px;
+  width: 100%;
+}
+
+.empty-state-card {
+  padding: 60px 40px;
+  background: var(--gray-50);
+  border: 2px dashed var(--gray-200);
+  text-align: center;
+  border-radius: var(--radius-lg);
+}
+
+.stats-card-orange {
+  border-left: 4px solid var(--kec-orange);
+}
+
+.stats-card-green {
+  border-left: 4px solid var(--kec-green);
+}
+
+.stats-card-blue {
+  border-left: 4px solid var(--kec-blue);
 }
