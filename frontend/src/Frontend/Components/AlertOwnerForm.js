@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useUser } from '@clerk/nextjs';
+import { useUser, useAuth } from '@clerk/nextjs';
 import { X, MapPin, Calendar, FileText, Send, AlertCircle, Smartphone, Building2, Camera, ShieldCheck } from 'lucide-react';
 import ImageUpload from './ImageUpload';
 import { API_ROUTES } from '@/Frontend/Lib/api';
 export default function AlertOwnerForm({ item, onClose, onSuccess }) {
+    const { getToken } = useAuth();
     const { user: currentUser } = useUser();
     const isOwner = currentUser?.id === item.ownerUserId;
 
@@ -27,10 +28,12 @@ export default function AlertOwnerForm({ item, onClose, onSuccess }) {
         setError('');
 
         try {
+            const token = await getToken();
             const response = await fetch(API_ROUTES.ALERT_OWNER, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     lostItemId: item._id,

@@ -4,10 +4,12 @@ import LostItem from '../Models/LostItem.js';
 import User from '../Models/User.js';
 import connectDB from '../Lib/MongoDB.js';
 
+import { requireAuth } from '../Lib/Auth.js';
+
 const router = express.Router();
 
 // Sync user data from Clerk
-router.post('/sync', async (req, res) => {
+router.post('/sync', requireAuth, async (req, res) => {
     try {
         const { clerkId, firstName, lastName, email, profileImageUrl } = req.body;
 
@@ -37,7 +39,7 @@ router.post('/sync', async (req, res) => {
 });
 
 // Fetch dashboard data
-router.get('/dashboard', async (req, res) => {
+router.get('/dashboard', requireAuth, async (req, res) => {
     try {
         const { userId } = req.query; // Clerk ID
 

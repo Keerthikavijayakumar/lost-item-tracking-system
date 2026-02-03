@@ -2,6 +2,8 @@ import express from 'express';
 import LostItem from '../Models/LostItem.js';
 import connectDB from '../Lib/MongoDB.js';
 
+import { requireAuth } from '../Lib/Auth.js';
+
 const router = express.Router();
 
 // GET all lost items with filters
@@ -46,7 +48,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST new lost item
-router.post('/', async (req, res) => {
+router.post('/', requireAuth, async (req, res) => {
     try {
         await connectDB();
         const { userId, userEmail, ...itemData } = req.body; // In a real app, userId should come from auth middleware
@@ -67,7 +69,7 @@ router.post('/', async (req, res) => {
 });
 
 // DELETE lost item
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', requireAuth, async (req, res) => {
     try {
         await connectDB();
         const { userId } = req.query; // Verification from frontend

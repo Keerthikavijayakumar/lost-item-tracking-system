@@ -4,10 +4,12 @@ import LostItem from '../Models/LostItem.js';
 import connectDB from '../Lib/MongoDB.js';
 import { sendFoundItemEmail } from '../Lib/Email.js';
 
+import { requireAuth } from '../Lib/Auth.js';
+
 const router = express.Router();
 
 // Finder reports item as found (notifies owner)
-router.post('/', async (req, res) => {
+router.post('/', requireAuth, async (req, res) => {
     try {
         await connectDB();
         console.log('Received alert request:', req.body);

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@clerk/nextjs';
+import { useUser, useAuth } from '@clerk/nextjs';
 import Navbar from '@/Frontend/Components/Navbar';
 import ImageUpload from '@/Frontend/Components/ImageUpload';
 import BackButton from '@/Frontend/Components/BackButton';
@@ -31,7 +31,7 @@ const CATEGORIES = [
 ];
 
 export default function NewLostItemPage() {
-    const router = useRouter();
+    const { getToken } = useAuth();
     const { user } = useUser();
     const [formData, setFormData] = useState({
         itemName: '',
@@ -61,10 +61,12 @@ export default function NewLostItemPage() {
         setError('');
 
         try {
+            const token = await getToken();
             const response = await fetch(API_ROUTES.LOST_ITEMS, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     ...formData,
@@ -92,7 +94,7 @@ export default function NewLostItemPage() {
             <Navbar />
 
             <main className="container" style={{ padding: 'var(--space-8) 0' }}>
-                <BackButton variant="minimal" style={{ marginBottom: '16px' }} />
+                <BackButton variant="minimal" style={{ marginBottom: '16px' }} href="/dashboard" />
                 <div style={{ marginBottom: 'var(--space-8)', textAlign: 'center' }}>
                     <h1 style={{ color: 'var(--kec-blue)', fontSize: '2rem', marginBottom: '8px' }}>Report a Lost Item</h1>
                     <p style={{ color: 'var(--text-secondary)' }}>Help us help you. Provide as much detail as possible to increase chances of recovery.</p>
@@ -211,7 +213,7 @@ export default function NewLostItemPage() {
                     <div className="form-actions">
                         <button
                             type="button"
-                            onClick={() => router.back()}
+                            onClick={() => router.push('/dashboard')}
                             className="btn"
                             style={{
                                 background: 'white',

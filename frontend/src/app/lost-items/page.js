@@ -76,7 +76,7 @@ export default function LostItemsFeedPage() {
                 {/* Header Section */}
                 <div className="stack-mobile" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px', gap: '20px', borderBottom: '2px solid var(--gray-100)', paddingBottom: '24px' }}>
                     <div style={{ textAlign: 'left', flex: 1 }}>
-                        <BackButton variant="minimal" style={{ marginBottom: '12px' }} />
+                        <BackButton variant="minimal" style={{ marginBottom: '12px' }} href="/dashboard" />
                         <h1 style={{ color: 'var(--kec-blue)', fontSize: '2rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '12px', margin: 0, letterSpacing: '-0.5px', flexWrap: 'wrap' }}>
                             <Search size={32} /> Lost Items Feed
                         </h1>

@@ -70,7 +70,7 @@ export default function Navbar() {
                                 fontWeight: '600',
                                 padding: '10px 24px'
                             }}>
-                                Login
+                                Get Started
                             </Link>
                         </SignedOut>
                     </div>

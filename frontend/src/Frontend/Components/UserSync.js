@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useUser } from '@clerk/nextjs';
+import { useUser, useAuth } from '@clerk/nextjs';
 import { API_ROUTES } from '@/Frontend/Lib/api';
 
 /**
@@ -10,6 +10,7 @@ import { API_ROUTES } from '@/Frontend/Lib/api';
  * always updated in our MongoDB database whenever they access the platform.
  */
 export default function UserSync() {
+    const { getToken } = useAuth();
     const { isLoaded, isSignedIn, user } = useUser();
 
     useEffect(() => {
@@ -24,10 +25,12 @@ export default function UserSync() {
                         profileImageUrl: user.imageUrl,
                     };
 
+                    const token = await getToken();
                     await fetch(`${API_ROUTES.USER}/sync`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
                         },
                         body: JSON.stringify(userData),
                     });

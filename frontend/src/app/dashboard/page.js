@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useUser } from '@clerk/nextjs';
+import { useUser, useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
 import Navbar from '@/Frontend/Components/Navbar';
 import BackButton from '@/Frontend/Components/BackButton';
@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 
 export default function DashboardPage() {
+    const { getToken } = useAuth();
     const { user } = useUser();
     const [data, setData] = useState({
         myItems: [],
@@ -34,7 +35,12 @@ export default function DashboardPage() {
 
     const fetchDashboardData = async () => {
         try {
-            const response = await fetch(`${API_ROUTES.USER_DASHBOARD}?userId=${user?.id}`);
+            const token = await getToken();
+            const response = await fetch(`${API_ROUTES.USER_DASHBOARD}?userId=${user?.id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             const result = await response.json();
 
             if (response.ok) {
@@ -52,8 +58,12 @@ export default function DashboardPage() {
 
         setDeleteLoading(itemId);
         try {
+            const token = await getToken();
             const response = await fetch(`${API_ROUTES.LOST_ITEMS}/${itemId}?userId=${user?.id}`, {
                 method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             });
 
             if (response.ok) {
@@ -93,7 +103,7 @@ export default function DashboardPage() {
             <Navbar />
 
             <main className="container" style={{ padding: 'var(--space-8) 0' }}>
-                <BackButton />
+                <BackButton href="/" />
                 {/* Welcome Header */}
                 <div className="page-header">
                     <h1 style={{ fontSize: '2.5rem', color: 'var(--kec-blue)' }}>
